@@ -52,6 +52,21 @@ def checkSSHConnection(ipAddr, username, password):
         return 0
     return 1
 
+@app.route('/stream', methods=['GET','POST'])
+def stream():
+    g = proc.Group()
+    p = g.run(["bash", "-c", "cd", "/home/qqdewa/sideproject/"])
+    #p = g.run(["bash", "-c", "python fabfile.py"])
+    p = g.run(["bash", "-c", "fab -t 5 setup_api"])
+
+    def read_process():
+        while g.is_pending():
+            lines = g.readlines()
+            for proc, line in lines:
+                if line:
+                    yield line + "<br>"
+    return Response(read_process(), mimetype="text/html")
+
 @app.route('/editor', methods=['GET','POST'])
 def editor():
     ipAddr = None
@@ -83,21 +98,6 @@ def editor():
         if checkSSHConnection(ipAddr, username, password):
             return redirect(url_for('stream'))
         return "Configuration Error"
-
-@app.route('/stream', methods=['GET','POST'])
-def stream():
-    g = proc.Group()
-    p = g.run(["bash", "-c", "cd", "/home/qqdewa/sideproject/"])
-    #p = g.run(["bash", "-c", "python fabfile.py"])
-    p = g.run(["bash", "-c", "fab -t 5 setup_api"])
-
-    def read_process():
-        while g.is_pending():
-            lines = g.readlines()
-            for proc, line in lines:
-                if line:
-                    yield line
-    return Response(read_process(), mimetype="text/plain")
 
 @app.route('/skulpt', methods=['GET', 'POST'])
 def skulpt():

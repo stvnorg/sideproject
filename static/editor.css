@@ -2,10 +2,18 @@ body {
     margin, padding: 0;
     white-space: pre;
 }
+.container {
+  display: block;
+  margin: 0 auto;
+  width: 1600px;
+  height: 800px;
+  border: 1px solid black;
+}
 .CodeMirror {
     display: block;
     margin: 0 auto;
-    width: 800px;
+    width: 750px;
+    top: -100px;
     border-top: 5px solid black;
     border-bottom: 5px solid black;
     border-left: 1px solid grey;
@@ -17,4 +25,24 @@ body {
 }
 textarea {
   white-space: pre;
+}
+.input {
+  display: block;
+  margin: 0 auto;
+  float: left;
+  width: 750px;
+  #border: 1px solid black;
+}
+.output {
+  display: block;
+  margin-top: -60px;
+  width: 750px;
+  float: left;
+  text-align: center;
+  #border: 1px solid black;
+}
+iframe {
+  width: 750px;
+  height: 500px;
+  text-align: center;
 }

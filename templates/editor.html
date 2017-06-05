@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <head>
     <title>Code Editor</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='lib/codemirror.css') }}">
@@ -23,7 +23,8 @@
     form.submit();
   }
   </script>
-
+<div class="container">
+<div class="input">
   <form class="editor-form" method="POST" action="../editor">
     <textarea name="codemirror" id='codemirror'></textarea>
     <!--
@@ -37,11 +38,15 @@
       var txtarea = document.getElementById('codemirror');
       var cm = CodeMirror.fromTextArea(txtarea, {mode: 'python', tabSize: 4, lineNumbers: true, indentUnit: 4, indentWithTabs: 4});
     </script>
-    <button type="button" onclick="func()">Run</button>
 
+    <button type="button" onclick="func()">Run</button>
     <!-- <input type="submit" value="Run" name="editor-submit" class="editor-submit">-->
   </form>
+</div>
+<div class="output">
+  <iframe name="main" src="http://172.168.2.118:5000"></iframe>
+</div>
 
-    Trest code
+</div>
 </body>
 </html>
