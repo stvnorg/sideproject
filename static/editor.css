@@ -1,0 +1,20 @@
+body {
+    margin, padding: 0;
+    white-space: pre;
+}
+.CodeMirror {
+    display: block;
+    margin: 0 auto;
+    width: 800px;
+    border-top: 5px solid black;
+    border-bottom: 5px solid black;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    white-space: pre;
+}
+#codemirror {
+  white-space: pre;
+}
+textarea {
+  white-space: pre;
+}

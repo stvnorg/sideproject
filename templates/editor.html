@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<head>
+    <title>Code Editor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/codemirror.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='editor.css') }}">
+    <script src="{{ url_for('static', filename='lib/codemirror.js') }}"></script>
+    <script src="{{ url_for('static', filename='mode/python/python.js') }}"></script>
+</head>
+<body>
+  <script>
+  var func = function() {
+
+    alert(cm.getValue());
+    var form = document.createElement("form");
+    form.setAttribute("method", "POST");
+    form.setAttribute("action", "../editor");
+    var field = document.createElement("input");
+    field.setAttribute("type", "hidden");
+    field.setAttribute("name", "codemirror");
+    field.setAttribute("value", cm.getValue());
+    form.appendChild(field);
+    document.body.appendChild(form);
+    form.submit();
+  }
+  </script>
+
+  <form class="editor-form" method="POST" action="../editor">
+    <textarea name="codemirror" id='codemirror'></textarea>
+    <!--
+    <script>
+        var myCodeMirror = CodeMirror(function(elt) {
+          codemirror.parentNode.replaceChild(elt, codemirror);
+        }, {value: codemirror.value, mode: 'python'});
+    </script>
+    -->
+    <script>
+      var txtarea = document.getElementById('codemirror');
+      var cm = CodeMirror.fromTextArea(txtarea, {mode: 'python', tabSize: 4, lineNumbers: true, indentUnit: 4, indentWithTabs: 4});
+    </script>
+    <button type="button" onclick="func()">Run</button>
+
+    <!-- <input type="submit" value="Run" name="editor-submit" class="editor-submit">-->
+  </form>
+
+    Trest code
+</body>
+</html>

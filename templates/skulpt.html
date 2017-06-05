@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<head>
+<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='skulpt.min.js') }}"></script>
+<script src="{{ url_for('static', filename='skulpt-stdlib.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='lib/codemirror.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='editor.css') }}">
+<script src="{{ url_for('static', filename='lib/codemirror.js') }}"></script>
+<script src="{{ url_for('static', filename='mode/python/python.js') }}"></script>
+
+</head>
+
+<body>
+
+<script type="text/javascript">
+// output functions are configurable.  This one just appends some text
+// to a pre element.
+function outf(text) {
+    var mypre = document.getElementById("output");
+    mypre.innerHTML = mypre.innerHTML + text;
+}
+function builtinRead(x) {
+    if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+            throw "File not found: '" + x + "'";
+    return Sk.builtinFiles["files"][x];
+}
+// Here's everything you need to run a python program in skulpt
+// grab the code from your textarea
+// get a reference to your pre element for output
+// configure the output function
+// call Sk.importMainWithBody()
+function runit() {
+   // var prog = document.getElementById("yourcode").value;
+   var prog = cm.getValue();
+   alert(prog)
+   var form = document.createElement("form");
+   form.setAttribute("method", "POST");
+   form.setAttribute("action", "../skulpt");
+   var field = document.createElement("input");
+   field.setAttribute("type", "hidden");
+   field.setAttribute("name", "codeeditor");
+   field.setAttribute("value", prog);
+   form.appendChild(field);
+   document.body.appendChild(form);
+   form.submit();
+
+}
+
+function runits() {
+  var myValue = document.getElementById('yourcode')
+  alert(myValue.value)
+}
+</script>
+
+
+<h3>Try This</h3>
+<form name="code-editor" action="../skulpt" method="POST" id="code-editor">
+<textarea id="yourcode" cols="40" rows="10">
+</textarea><br />
+<script>
+  var txtarea = document.getElementById('yourcode');
+  var cm = CodeMirror.fromTextArea(txtarea, {mode: 'python', tabSize: 4, lineNumbers: true});
+</script>
+<button type="button" onclick="runit()">Run</button>
+</form>
+<pre id="output" ></pre>
+<!-- If you want turtle graphics include a canvas -->
+<div id="mycanvas"></div>
+
+</body>
+</html>
