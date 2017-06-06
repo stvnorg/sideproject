@@ -82,6 +82,8 @@ def stream():
                 p = g.run(["bash", "-c", "cd", "/home/qqdewa/sideproject/"])
                 #p = g.run(["bash", "-c", "python fabfile.py"])
                 p = g.run(["bash", "-c", "fab -t 5 setup_api"])
+            else:
+                return Response("<span class='line' style='color:#aae8f8;font-family:Helvetica;font-size:11px'>Configuration Error</span>", mimetype="text/html")
     except:
         return Response("<span class='line' style='color:#aae8f8;font-family:Helvetica;font-size:11px'>Configuration Error</span>", mimetype="text/html")
 
@@ -94,7 +96,7 @@ def stream():
                 trigger_time += 10
             now = time.time()
             if now > trigger_time:
-                yield "<span class='line' style='color:#aae8f8;font-family:Helvetica;font-size:11px'>*** Code loops</span>"
+                yield "<span class='line' style='color:#aae8f8;font-family:Helvetica;font-size:11px'>*** Timeout</span>"
                 break
                 trigger_time = now + 10
     return Response(read_process(), mimetype="text/html")

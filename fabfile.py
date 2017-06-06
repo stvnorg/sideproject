@@ -6,7 +6,7 @@ from fabric.contrib.files import exists
 import os
 
 # Please set the env.hosts according to the real IP of API Server
-env.hosts = ['172.168.2.115']
+env.hosts = ['172.168.2.107']
 env.user = 'root'
 env.password = '123456'
 
@@ -27,6 +27,22 @@ def setup_api():
 	run('service apache2 restart')
 	run('timedatectl set-timezone Asia/Jakarta')
 
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
       
     
       
