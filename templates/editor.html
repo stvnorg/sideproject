@@ -28,7 +28,11 @@
 <div class="input">
   <form class="editor-form" method="POST" action="../editor">
 
-    <textarea name="codemirror" id='codemirror'></textarea>
+    <textarea name="codemirror" id='codemirror'>
+      {% if content %}
+        {{ content }}
+      {% endif %}
+    </textarea>
     <!--
     <script>
         var myCodeMirror = CodeMirror(function(elt) {
@@ -47,7 +51,7 @@
 
 </div>
 <div class="output">
-  <iframe name="main" src="http://172.168.2.118:5000/stream"></iframe>
+  <iframe name="main" src="http://172.168.2.104:5000/stream"></iframe>
 </div>
 
 </div>

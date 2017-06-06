@@ -26,3 +26,24 @@ def setup_api():
 		
 	run('service apache2 restart')
 	run('timedatectl set-timezone Asia/Jakarta')
+
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    

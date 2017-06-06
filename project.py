@@ -55,21 +55,46 @@ def checkSSHConnection(ipAddr, username, password):
 
 @app.route('/stream', methods=['GET','POST'])
 def stream():
+    ipAddr = None
+    username = None
+    password = None
+    codelines = None
     g = proc.Group()
-    p = g.run(["bash", "-c", "cd", "/home/qqdewa/sideproject/"])
-    #p = g.run(["bash", "-c", "python fabfile.py"])
-    p = g.run(["bash", "-c", "fab -t 5 setup_api"])
+    try:
+        filepath = os.getcwd() + "/fabfile.py"
+        with open(filepath) as f:
+            codelines = f.read()
+            clines = re.findall(r'env.hosts\s*\=\s*\[\'\d+\.\d+\.\d+\.\d+\'\]',codelines)
+            if clines:
+                ipAddr = re.search(r'\d+\.\d+\.\d+\.\d+', clines[0])
+                ipAddr = ipAddr.group()
+
+            clines = re.findall(r'env.user\s*\=\s*\'\w+\'', codelines)
+            if clines:
+                username = re.search(r'\'\w+\'', clines[0])
+                username = username.group().strip("'")
+
+            clines = re.findall(r'env.password\s*\=\s*\'.+\'', codelines)
+            if clines:
+                password = re.search(r'\'.+\'', clines[0])
+                password = password.group().strip("'")
+            if checkSSHConnection(ipAddr, username, password):
+                p = g.run(["bash", "-c", "cd", "/home/qqdewa/sideproject/"])
+                #p = g.run(["bash", "-c", "python fabfile.py"])
+                p = g.run(["bash", "-c", "fab -t 5 setup_api"])
+    except:
+        return Response("<span class='line' style='color:#aae8f8;font-family:Helvetica;font-size:11px'>Configuration Error</span>", mimetype="text/html")
 
     def read_process():
         trigger_time = time.time()
         while g.is_pending():
             lines = g.readlines()
             for proc, line in lines:
-                yield "<span class='line' style='color:#fff;font-family:Helvetica;font-size:11px'>" + line + "</span><br>"
+                yield "<span class='line' style='color:#aae8f8;font-family:Helvetica;font-size:11px'>" + line + "</span><br>"
                 trigger_time += 10
             now = time.time()
             if now > trigger_time:
-                yield "<span class='line' style='color:#fff;font-family:Helvetica;font-size:11px'>*** Code loops</span>"
+                yield "<span class='line' style='color:#aae8f8;font-family:Helvetica;font-size:11px'>*** Code loops</span>"
                 break
                 trigger_time = now + 10
     return Response(read_process(), mimetype="text/html")
@@ -79,8 +104,15 @@ def editor():
     ipAddr = None
     username = None
     password = None
+    content = None
     if request.method == 'GET':
-        return render_template('editor.html')
+        try:
+            filepath = os.getcwd() + "/fabfile.py"
+            with open(filepath) as f:
+                content = f.read()
+        except:
+            return "File not found"
+        return render_template('editor.html', content=content)
     else:
         codelines = request.form['codemirror']
         filepath = os.getcwd()
@@ -102,9 +134,7 @@ def editor():
             password = re.search(r'\'.+\'', clines[0])
             password = password.group().strip("'")
 
-        if checkSSHConnection(ipAddr, username, password):
-            return redirect(url_for('editor'))
-        return "Configuration Error"
+        return redirect(url_for('editor'))
 
 @app.route('/skulpt', methods=['GET', 'POST'])
 def skulpt():
