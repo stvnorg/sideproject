@@ -7,12 +7,13 @@ body {
   margin: 0 auto;
   width: 1600px;
   height: 800px;
-  border: 1px solid black;
+  #border: 1px solid black;
 }
 .CodeMirror {
     display: block;
     margin: 0 auto;
     width: 750px;
+    height: 500px;
     top: -100px;
     border-top: 5px solid black;
     border-bottom: 5px solid black;
@@ -29,20 +30,36 @@ textarea {
 .input {
   display: block;
   margin: 0 auto;
+  margin-top: -20px;
   float: left;
   width: 750px;
   #border: 1px solid black;
 }
+button {
+  position: fixed;
+  margin-top: -150px;
+}
 .output {
   display: block;
   margin-top: -60px;
+  margin-right: 90px;
   width: 750px;
-  float: left;
+  float: right;
   text-align: center;
+  color: #fff;
   #border: 1px solid black;
 }
 iframe {
   width: 750px;
   height: 500px;
+  border-top: 3px solid grey;
+  border-bottom: 3px solid grey;
   text-align: center;
+  font-family: Helvetica, sans-serif;
+  font-size: 10px;
+  color: #fff;
+  background: #000;
+}
+.line {
+  color: #fff;
 }

@@ -8,7 +8,7 @@ import os
 # Please set the env.hosts according to the real IP of API Server
 env.hosts = ['172.168.2.115']
 env.user = 'root'
-env.password = '12345s6'
+env.password = '123456'
 
 def setup_api():
 	run('apt-get update')

@@ -24,8 +24,10 @@
   }
   </script>
 <div class="container">
+
 <div class="input">
   <form class="editor-form" method="POST" action="../editor">
+
     <textarea name="codemirror" id='codemirror'></textarea>
     <!--
     <script>
@@ -39,12 +41,13 @@
       var cm = CodeMirror.fromTextArea(txtarea, {mode: 'python', tabSize: 4, lineNumbers: true, indentUnit: 4, indentWithTabs: 4});
     </script>
 
-    <button type="button" onclick="func()">Run</button>
+    <button type="button" onclick="func()">Setup API</button>
     <!-- <input type="submit" value="Run" name="editor-submit" class="editor-submit">-->
   </form>
+
 </div>
 <div class="output">
-  <iframe name="main" src="http://172.168.2.118:5000"></iframe>
+  <iframe name="main" src="http://172.168.2.118:5000/stream"></iframe>
 </div>
 
 </div>

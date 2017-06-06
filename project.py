@@ -1,5 +1,6 @@
 import os
 import re
+import time
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash, jsonify, Response
 from werkzeug.utils import secure_filename
 from flask_mail import Message, Mail
@@ -60,11 +61,17 @@ def stream():
     p = g.run(["bash", "-c", "fab -t 5 setup_api"])
 
     def read_process():
+        trigger_time = time.time()
         while g.is_pending():
             lines = g.readlines()
             for proc, line in lines:
-                if line:
-                    yield line + "<br>"
+                yield "<span class='line' style='color:#fff;font-family:Helvetica;font-size:11px'>" + line + "</span><br>"
+                trigger_time += 10
+            now = time.time()
+            if now > trigger_time:
+                yield "<span class='line' style='color:#fff;font-family:Helvetica;font-size:11px'>*** Code loops</span>"
+                break
+                trigger_time = now + 10
     return Response(read_process(), mimetype="text/html")
 
 @app.route('/editor', methods=['GET','POST'])
@@ -96,7 +103,7 @@ def editor():
             password = password.group().strip("'")
 
         if checkSSHConnection(ipAddr, username, password):
-            return redirect(url_for('stream'))
+            return redirect(url_for('editor'))
         return "Configuration Error"
 
 @app.route('/skulpt', methods=['GET', 'POST'])
